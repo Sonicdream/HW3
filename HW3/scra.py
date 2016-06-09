@@ -45,11 +45,14 @@ def Climb(url):
         if ConnectOk(Mylist[0]):
             
             page = urllib2.urlopen(Mylist[0],timeout=10) 
+            #go to the page 
             soup = BeautifulSoup(page,'lxml') #watch the url content
+
             email = re.findall(r'[A-Za-z0-9_\-\.]+\@[A-Za-z0-9_\-\.]+\.[A-Za-z]{2,4}', soup.prettify())
             #find all e-mail of the page
 
-            #count = 0 
+            #count = 0
+            #put email into list() 
             for i in email:
                 if i[-3:] != 'jpg' and i[-3:] != 'png' and i[-3:] != 'JPG' and i[-3:0] != 'PNG':
                     mail_list.append(i)
@@ -72,7 +75,8 @@ def Climb(url):
                 
                # print("**************")
            # for i in range(0, catch-1, +1):
-           
+
+           # get the new URL
             for i in soup.findAll('a', href=True): 
                 link = i.get('href') 
 
