@@ -1,23 +1,20 @@
 from bs4 import BeautifulSoup
-import HTMLParser
-import requests
-import time
-import re
 import urllib2
 import socket
+import time
+import re
 
 Mylist = list()
 mail_list = list()
-
 
 def ConnectOk(url):
     try:
         urllib2.urlopen(url,timeout=5)
     
-    except urllib2.HTTPError, e:
+    except urllib2.URLError, e:
         return False
 
-    except urllib2.URLError, e: 
+    except urllib2.HTTPError, e: 
         return False
 
     except socket.error, e:
@@ -32,8 +29,6 @@ def ConnectOk(url):
     except ssl.SSLError, e:
         return False
     
-           
-
     return True
 
 
@@ -42,7 +37,6 @@ def Climb(url):
     count = 0  
     Mylist.append(url)
   
-
     while len(Mylist)>0:
 
         print('The time: %s' %round_number)
@@ -51,7 +45,6 @@ def Climb(url):
         if ConnectOk(Mylist[0]):
             
             page = urllib2.urlopen(Mylist[0],timeout=10) 
-            
             soup = BeautifulSoup(page,'lxml') #watch the url content
             email = re.findall(r'[A-Za-z0-9_\-\.]+\@[A-Za-z0-9_\-\.]+\.[A-Za-z]{2,4}', soup.prettify())
             #find all e-mail of the page
@@ -80,7 +73,6 @@ def Climb(url):
                # print("**************")
            # for i in range(0, catch-1, +1):
            
-           # link = [tag['href'] for tag in soup.findAll('a',{'href':True})][37]
             for i in soup.findAll('a', href=True): 
                 link = i.get('href') 
 
@@ -97,8 +89,6 @@ def Climb(url):
             Mylist.pop(0)
             print(len(Mylist))
  
-           
-        
 
 
 if __name__ == '__main__':
